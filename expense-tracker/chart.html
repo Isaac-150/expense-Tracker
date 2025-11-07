@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fin Track Pro</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        header {
+            grid-column: 1 / -1;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .budget-section {
+            grid-column: 1 / -1;
+        }
+        
+        .budget-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .budget-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .budget-goal {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #3498db;
+            width: 83%; /* 12,450 / 15,000 = 83% */
+        }
+        
+        .chart-container {
+            grid-column: 1 / -1;
+            height: 400px;
+        }
+        
+        #pie-chart {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .premium-member {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .trading-views {
+            grid-column: 1 / -1;
+        }
+        
+        .trading-views h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .trading-content {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fin Track Pro</h1>
+        </header>
+        
+        <section class="card budget-section">
+            <div class="budget-title">
+                <h2>Budget Progress</h2>
+            </div>
+            <div class="budget-amount">12,450</div>
+            <div class="budget-goal">of 15,000</div>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </section>
+        
+        <section class="card chart-container">
+            <h2>Expenses by Category</h2>
+            <div id="pie-chart"></div>
+        </section>
+        
+        <section class="card actions">
+            <div class="premium-member">Premium Member</div>
+            <button class="logout-btn">Logout</button>
+        </section>
+        
+        <section class="card trading-views">
+            <h3>Trading Views</h3>
+            <div class="trading-content">
+                Taking a look at Zoom.
+            </div>
+        </section>
+    </div>
+
+    <script type="text/javascript">
+        // Load Google Charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            // Create the data table
+            var data = google.visualization.arrayToDataTable([
+                ['Category', 'Amount'],
+                ['Housing', 4000],
+                ['Food', 1500],
+                ['Transportation', 1200],
+                ['Entertainment', 800],
+                ['Utilities', 1000],
+                ['Other', 950]
+            ]);
+
+            // Set chart options
+            var options = {
+                title: 'Monthly Expense Breakdown',
+                titleTextStyle: {
+                    fontSize: 18,
+                    bold: true
+                },
+                pieHole: 0.4,
+                pieSliceText: 'value',
+                pieSliceTextStyle: {
+                    color: 'white',
+                    fontSize: 12
+                },
+                legend: {
+                    position: 'labeled',
+                    textStyle: {
+                        fontSize: 12
+                    }
+                },
+                chartArea: {
+                    left: 20,
+                    top: 50,
+                    width: '90%',
+                    height: '80%'
+                },
+                colors: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c']
+            };
+
+            // Instantiate and draw the chart
+            var chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+            chart.draw(data, options);
+            
+            // Add resize handler
+            window.addEventListener('resize', function() {
+                chart.draw(data, options);
+            });
+        }
+    </script>
+</body>
+</html>
